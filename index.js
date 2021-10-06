@@ -22,9 +22,9 @@ const credentials = {
   cert: fs.readFileSync(options.cert),
 };
 const app = express();
-app.get("*", function (req, res) {
+app.all("*", function (req, res) {
   var newurl = `${options.from}${req.url}`;
-  request(newurl).pipe(res);
+  request(newurl, { method: req.method }).pipe(res);
 });
 
 const server = https.createServer(credentials, app);
